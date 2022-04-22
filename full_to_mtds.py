@@ -115,13 +115,13 @@ def print_map(key):
     global dict_maps
     mapa = dict_maps[key]
     k = 0
-    for i in mapa.keys():
-        if len(i) > k:
-            k = len(i)
+    for y in mapa.keys():
+        if len(y) > k:
+            k = len(y)
     print('router: ' + key)
     print('', mid_just('MTD', k + 3), mid_just('START', 12), mid_just('Size', 12), '', sep='|')
-    for i in mapa.keys():
-        print('', mid_just(i, k + 3), mid_just(mapa[i][0], 12), mid_just(mapa[i][1], 12), '', sep='|')
+    for y in mapa.keys():
+        print('', mid_just(y, k + 3), mid_just(mapa[y][0], 12), mid_just(mapa[y][1], 12), '', sep='|')
 
 
 def make_dir(name):  # создает директорию и переходит в неё
@@ -132,17 +132,17 @@ def make_dir(name):  # создает директорию и переходит
         s = name + ('' if j == 0 else str(j))
         if not os.path.isdir(s):
             os.mkdir(s)
-            # os.chdir(s)
-            # print(f"Текущая директория:", os.getcwd())
-            print(f'создана директория: {s}')
+            print('создана директория: ' + os.getcwd() + ('\\' if '\\' in os.getcwd() else '/') + s)
             return s
 
 
-def cut_a_block(file, start, size, new_file):
+def cut_a_block(file, start, end, new_file):
     global save_dir
     with open(file, "rb") as file:
         file.seek(int(start, 16), 0)
-        byte = file.read(int(size, 16))
+        size = int(end, 16)-int(start, 16)
+        # print(size)
+        byte = file.read(size)
         new_file = open(save_dir + ('\\' if '\\' in os.getcwd() else '/') + new_file + '.bin', 'wb')
         new_file.write(byte)
         new_file.close()
